@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  manufacturer-parser:
+    build: .
+    image: manufacturer-parser
+    environment:
+        DATAURL: https://linuxnet.ca/ieee/oui/nmap-mac-prefixes
+        DBURL: db
+        LOGLEVEL: 0
+    entrypoint: /usr/bin/manufacturer-parser
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
