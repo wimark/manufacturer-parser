@@ -1,0 +1,25 @@
+name: AutoUpdate VendorMap
+
+on:
+  schedule:
+    - cron: "0 1 * * *"
+
+jobs:
+  UpdateVendorMap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.14
+      - name: Update VendorMap
+        run: go get github.com/wimark/vendormap
+      - name: Check if Updated
+        run: echo ::set-env name=DIFF::$(git diff --stat)
+      - name: Commit&Push changes
+        if: ${{ env.DIFF }}
+        run: |
+          git commit -m "Commit Autoudates VendorMap" -a
+          git push
+  
