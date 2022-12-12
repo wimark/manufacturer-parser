@@ -16,7 +16,7 @@ jobs:
       - name: Update VendorMap
         run: go get github.com/wimark/vendormap
       - name: Check if Updated
-        run: echo ::set-env name=DIFF::$(git diff --stat)
+        run: echo DIFF=$(git diff --stat) >> $GITHUB_ENV
       - name: Commit&Push changes
         if: ${{ env.DIFF }}
         run: |
